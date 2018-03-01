@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ReposViewController.swift
 //  githot
 //
 //  Created by Mijo Kaliger on 3/1/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ReposViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

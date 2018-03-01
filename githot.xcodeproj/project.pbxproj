@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		5E6E681A2047E9A600A3BA3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E68192047E9A600A3BA3C /* AppDelegate.swift */; };
-		5E6E681C2047E9A600A3BA3C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E681B2047E9A600A3BA3C /* ViewController.swift */; };
 		5E6E681F2047E9A600A3BA3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E6E681D2047E9A600A3BA3C /* Main.storyboard */; };
 		5E6E68212047E9A600A3BA3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E6E68202047E9A600A3BA3C /* Assets.xcassets */; };
 		5E6E68242047E9A600A3BA3C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E6E68222047E9A600A3BA3C /* LaunchScreen.storyboard */; };
 		5E6E682F2047E9A600A3BA3C /* githotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E682E2047E9A600A3BA3C /* githotTests.swift */; };
+		5E6E683D2047F42700A3BA3C /* ReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E683B2047F42700A3BA3C /* ReposViewController.swift */; };
+		5E6E683F2047F6B800A3BA3C /* Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E683E2047F6B800A3BA3C /* Repo.swift */; };
+		5E6E68412047F95700A3BA3C /* RepoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E68402047F95700A3BA3C /* RepoViewModel.swift */; };
+		5E6E68432047FBC100A3BA3C /* RepoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E68422047FBC100A3BA3C /* RepoService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +31,6 @@
 /* Begin PBXFileReference section */
 		5E6E68162047E9A600A3BA3C /* githot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = githot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E6E68192047E9A600A3BA3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5E6E681B2047E9A600A3BA3C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5E6E681E2047E9A600A3BA3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5E6E68202047E9A600A3BA3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5E6E68232047E9A600A3BA3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -36,6 +38,10 @@
 		5E6E682A2047E9A600A3BA3C /* githotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = githotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E6E682E2047E9A600A3BA3C /* githotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = githotTests.swift; sourceTree = "<group>"; };
 		5E6E68302047E9A600A3BA3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5E6E683B2047F42700A3BA3C /* ReposViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReposViewController.swift; sourceTree = "<group>"; };
+		5E6E683E2047F6B800A3BA3C /* Repo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repo.swift; sourceTree = "<group>"; };
+		5E6E68402047F95700A3BA3C /* RepoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoViewModel.swift; sourceTree = "<group>"; };
+		5E6E68422047FBC100A3BA3C /* RepoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +83,11 @@
 		5E6E68182047E9A600A3BA3C /* githot */ = {
 			isa = PBXGroup;
 			children = (
+				5E6E68422047FBC100A3BA3C /* RepoService.swift */,
+				5E6E68392047F42700A3BA3C /* Models */,
+				5E6E683A2047F42700A3BA3C /* Views */,
+				5E6E683C2047F42700A3BA3C /* ViewModels */,
 				5E6E68192047E9A600A3BA3C /* AppDelegate.swift */,
-				5E6E681B2047E9A600A3BA3C /* ViewController.swift */,
 				5E6E681D2047E9A600A3BA3C /* Main.storyboard */,
 				5E6E68202047E9A600A3BA3C /* Assets.xcassets */,
 				5E6E68222047E9A600A3BA3C /* LaunchScreen.storyboard */,
@@ -94,6 +103,30 @@
 				5E6E68302047E9A600A3BA3C /* Info.plist */,
 			);
 			path = githotTests;
+			sourceTree = "<group>";
+		};
+		5E6E68392047F42700A3BA3C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5E6E683E2047F6B800A3BA3C /* Repo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5E6E683A2047F42700A3BA3C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5E6E683B2047F42700A3BA3C /* ReposViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5E6E683C2047F42700A3BA3C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5E6E68402047F95700A3BA3C /* RepoViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,8 +232,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E6E681C2047E9A600A3BA3C /* ViewController.swift in Sources */,
+				5E6E68412047F95700A3BA3C /* RepoViewModel.swift in Sources */,
+				5E6E683D2047F42700A3BA3C /* ReposViewController.swift in Sources */,
 				5E6E681A2047E9A600A3BA3C /* AppDelegate.swift in Sources */,
+				5E6E683F2047F6B800A3BA3C /* Repo.swift in Sources */,
+				5E6E68432047FBC100A3BA3C /* RepoService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +392,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UYU2T98W35;
 				INFOPLIST_FILE = githot/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.aircut.github.githot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -371,6 +408,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UYU2T98W35;
 				INFOPLIST_FILE = githot/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.aircut.github.githot;
 				PRODUCT_NAME = "$(TARGET_NAME)";

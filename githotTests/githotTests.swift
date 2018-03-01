@@ -11,26 +11,43 @@ import XCTest
 
 class githotTests: XCTestCase {
     
+    var repoService = MockRepoService()
+    var repoViewModel: RepoViewModel!
+    
     override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        repoViewModel = RepoViewModel(repoService: repoService)
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func test_fetchRepos() {
+
+        repoViewModel.fetchRepos()
+        
+        XCTAssert(repoService.fetchTrendingReposCalled)
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func test_fetchRepoFail() {
+        
+        // Given
+        let error = ServiceError.noNetwork
+        
+        // When
+        repoViewModel.fetchRepos()
+        repoService.fetchFail(error: error)
+        
+        // Then
+        XCTAssertEqual(repoViewModel.alertMessage, error.rawValue)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func test_fetchRepoSuccess() {
+        
+        // Given
+        // When
+        repoViewModel.fetchRepos()
+        repoService.fetchSuccess()
+        
+        // Then
+        XCTAssertNil(repoViewModel.alertMessage)
+        XCTAssertNotNil(repoViewModel.repos)
     }
     
 }
