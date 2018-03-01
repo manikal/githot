@@ -16,6 +16,7 @@
 		5E6E683F2047F6B800A3BA3C /* Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E683E2047F6B800A3BA3C /* Repo.swift */; };
 		5E6E68412047F95700A3BA3C /* RepoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E68402047F95700A3BA3C /* RepoViewModel.swift */; };
 		5E6E68432047FBC100A3BA3C /* RepoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E68422047FBC100A3BA3C /* RepoService.swift */; };
+		A894855690D08808419C7B48 /* Pods_githot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56D2BD449CFFE936C16686E3 /* Pods_githot.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4318C57436FAC055CC27F7E4 /* Pods-githot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-githot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-githot/Pods-githot.debug.xcconfig"; sourceTree = "<group>"; };
+		56D2BD449CFFE936C16686E3 /* Pods_githot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_githot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E6E68162047E9A600A3BA3C /* githot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = githot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E6E68192047E9A600A3BA3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5E6E681E2047E9A600A3BA3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -42,6 +45,7 @@
 		5E6E683E2047F6B800A3BA3C /* Repo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repo.swift; sourceTree = "<group>"; };
 		5E6E68402047F95700A3BA3C /* RepoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoViewModel.swift; sourceTree = "<group>"; };
 		5E6E68422047FBC100A3BA3C /* RepoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoService.swift; sourceTree = "<group>"; };
+		8037AA303CAE4821885DCECF /* Pods-githot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-githot.release.xcconfig"; path = "Pods/Target Support Files/Pods-githot/Pods-githot.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A894855690D08808419C7B48 /* Pods_githot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +73,8 @@
 				5E6E68182047E9A600A3BA3C /* githot */,
 				5E6E682D2047E9A600A3BA3C /* githotTests */,
 				5E6E68172047E9A600A3BA3C /* Products */,
+				98C6AA1F026494DB4494C62D /* Pods */,
+				D75B5AB6C8E880FBCF32341F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,6 +136,23 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		98C6AA1F026494DB4494C62D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4318C57436FAC055CC27F7E4 /* Pods-githot.debug.xcconfig */,
+				8037AA303CAE4821885DCECF /* Pods-githot.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D75B5AB6C8E880FBCF32341F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				56D2BD449CFFE936C16686E3 /* Pods_githot.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -136,9 +160,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5E6E68332047E9A600A3BA3C /* Build configuration list for PBXNativeTarget "githot" */;
 			buildPhases = (
+				8FE1D50C5426FBD29F0D29DF /* [CP] Check Pods Manifest.lock */,
 				5E6E68122047E9A600A3BA3C /* Sources */,
 				5E6E68132047E9A600A3BA3C /* Frameworks */,
 				5E6E68142047E9A600A3BA3C /* Resources */,
+				6A13F0C384B5D5F50EEB4323 /* [CP] Embed Pods Frameworks */,
+				CEE26ACDC93A8221676FAA89 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -226,6 +253,66 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6A13F0C384B5D5F50EEB4323 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-githot/Pods-githot-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactiveCocoa/ReactiveCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactiveSwift/ReactiveSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-githot/Pods-githot-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8FE1D50C5426FBD29F0D29DF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-githot-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CEE26ACDC93A8221676FAA89 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-githot/Pods-githot-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5E6E68122047E9A600A3BA3C /* Sources */ = {
@@ -387,6 +474,7 @@
 		};
 		5E6E68342047E9A600A3BA3C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4318C57436FAC055CC27F7E4 /* Pods-githot.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -403,6 +491,7 @@
 		};
 		5E6E68352047E9A600A3BA3C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8037AA303CAE4821885DCECF /* Pods-githot.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
