@@ -31,17 +31,32 @@ class ReposViewController: UIViewController {
             observer.observeValues({ [weak self] (loading) in
                 guard let strongSelf = self else { return }
                 DispatchQueue.main.async {
+                    strongSelf.tableView.reloadData()
+
                     if loading {
-                        strongSelf.activityIndicator.isHidden = false
                         strongSelf.activityIndicator.startAnimating()
                     } else {
-                        strongSelf.tableView.reloadData()
                         strongSelf.activityIndicator.stopAnimating()
                     }
                 }
             })
-        
         }
+        
+        viewModel.alertMessageSignal.observeResult { [weak self] (result) in
+            guard let strongSelf = self else { return }
+            if let message = result.value {
+                DispatchQueue.main.async {
+                    strongSelf.showAlert(message: message)
+                    strongSelf.activityIndicator.stopAnimating()
+                }
+            }
+        }
+    }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+        alert.addAction( UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

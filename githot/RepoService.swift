@@ -6,9 +6,6 @@
 //  Copyright © 2018 AirCutDev. All rights reserved.
 //
 
-import Foundation
-//import AFNetworking
-import ReactiveCocoa
 import ReactiveSwift
 import enum Result.NoError
 
