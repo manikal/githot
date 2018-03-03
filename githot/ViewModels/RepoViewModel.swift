@@ -50,6 +50,11 @@ class RepoViewModel {
         return cellViewModels[indexPath.row]
     }
     
+    func repoDetailsViewModel(at indexPath: IndexPath) -> RepoDetailsViewModel {
+        let repo = repoService.repos.value[indexPath.row]
+        return RepoDetailsViewModel(repo: repo)
+    }
+    
     func searchBarSearchButtonTappedWith(text: String) {
         cellViewModels.removeAll()
         isLoading.value = true
@@ -62,6 +67,17 @@ extension RepoCellViewModel {
         self.name = repo.name
         self.stars = repo.stars
         self.description = repo.description
+    }
+}
+
+extension RepoDetailsViewModel {
+    init(repo: Repo) {
+        self.name = repo.name
+        self.username = repo.author
+        self.stars = repo.stars
+        self.forks = repo.forks
+        self.description = repo.description
+        self.avatarURL = repo.avatarURL
     }
 }
 

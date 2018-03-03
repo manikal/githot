@@ -53,6 +53,17 @@ class ReposViewController: UIViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationViewController = segue.destination
+        
+        if let repoDetailsViewController = destinationViewController as? RepoDetailsViewController {
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                let repoDetailsViewModel = viewModel.repoDetailsViewModel(at: selectedIndexPath)
+                repoDetailsViewController.viewModel = repoDetailsViewModel
+            }
+        }
+    }
+    
     func showAlert(message: String) {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
         alert.addAction( UIAlertAction(title: "Ok", style: .cancel, handler: nil))
