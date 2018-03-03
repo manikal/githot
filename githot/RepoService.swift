@@ -13,13 +13,12 @@ import ReactiveSwift
 import enum Result.NoError
 
 private struct RepoServiceConstants {
-    static let SearchReposAPI = "https://api.github.com/search/repositories?q=%@&sort=stars&order=desc&per_page=200" // 30 requests per minute
+    static let SearchReposAPI = "https://api.github.com/search/repositories?q=%@&sort=stars&order=desc&per_page=100" // 30 requests per minute
     static let Token = "1be19c55826dce97ac9f831f5e7b2aac13260104"
     static let UserName = "manikal"
 }
 
 enum ServiceError: String, Error {
-    case noData = "No Data"
     case requestFailed = "Request Failed"
     case conversionFailed = "JSON response serialization failed"
     case creatingRequestFailed = "Creating search request URL failed"
@@ -46,7 +45,7 @@ class RepoService {
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 do {
-                    guard let data = data else { throw ServiceError.noData }
+                    guard let data = data else { return producer.send(value: []) }
 
                     guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else { throw ServiceError.conversionFailed }
                     
@@ -60,7 +59,7 @@ class RepoService {
                             if models.count > 0 {
                                 producer.send(value: models)
                             } else {
-                                throw ServiceError.noData
+                                producer.send(value: [])
                             }
                         }
                     } else {
@@ -91,8 +90,10 @@ class RepoService {
 
 extension Repo {
     init(data: [String : Any]) {
-        self.name = data["name"] as? String ?? ""
         
+        self.name = data["name"] as? String ?? ""
+        self.description = data["description"] as? String ?? ""
+
         if let stars = data["watchers"] as? Int {
             self.stars = String(stars)
         } else {
@@ -104,8 +105,6 @@ extension Repo {
         } else {
             self.forks = "0"
         }
-        
-        self.description = data["description"] as? String ?? ""
         
         if let owner = data["owner"] as? [String : Any] {
             self.avatarURL = owner["avatar_url"] as? String ?? ""

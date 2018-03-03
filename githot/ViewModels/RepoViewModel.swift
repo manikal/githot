@@ -12,30 +12,33 @@ import ReactiveSwift
 class RepoViewModel {
     
     private let repoService = RepoService()
+    private var cellViewModels = [RepoCellViewModel]()
     
-    var cellViewModels = MutableProperty([RepoCellViewModel]())
+    var isLoading = MutableProperty(false)
     
     private func searchRepos(text: String) {
-        self.repoService.searchRepos(text: text)
+        repoService.searchRepos(text: text)
         
-        self.repoService.repos.producer.startWithSignal { (observer, disposable) -> () in
+        repoService.repos.producer.startWithSignal { (observer, disposable) -> () in
             observer.observeValues({ [weak self] (repos) in
                 guard let strongSelf = self else { return }
-                strongSelf.cellViewModels.value = repos.map { RepoCellViewModel(repo: $0) }.flatMap { $0 }
+                strongSelf.cellViewModels = repos.map { RepoCellViewModel(repo: $0) }.flatMap { $0 }
+                strongSelf.isLoading.value = false
             })
         }
     }
     
     var cellsCount: Int {
-        return cellViewModels.value.count
+        return cellViewModels.count
     }
     
     func cellViewModel(at indexPath: IndexPath) -> RepoCellViewModel {
-        return cellViewModels.value[indexPath.row]
+        return cellViewModels[indexPath.row]
     }
     
     func searchBarSearchButtonTappedWith(text: String) {
-        self.searchRepos(text: text)
+        isLoading.value = true
+        searchRepos(text: text)
     }
 }
 

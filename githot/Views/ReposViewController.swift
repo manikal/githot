@@ -8,40 +8,53 @@
 
 import UIKit
 
-class ReposViewController: UITableViewController {
+class ReposViewController: UIViewController {
     
-    let searchController = UISearchController(searchResultsController: nil)
-    let viewModel = RepoViewModel()
+    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
+    private let searchController = UISearchController(searchResultsController: nil)
+    private let viewModel = RepoViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchController.searchBar.placeholder = "Search Repositories"
-        tableView.tableHeaderView = searchController.searchBar
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
         
+        tableView.tableHeaderView = searchController.searchBar
+        tableView.tableFooterView = UIView()
+        
         definesPresentationContext = true
         
-        viewModel.cellViewModels.producer.startWithSignal { (observer, disposable) -> () in
-            observer.observeValues({ [weak self] (repos) in
+        viewModel.isLoading.producer.startWithSignal { (observer, disposable) -> () in
+            observer.observeValues({ [weak self] (loading) in
                 guard let strongSelf = self else { return }
                 DispatchQueue.main.async {
-                    strongSelf.tableView.reloadData()
+                    if loading {
+                        strongSelf.activityIndicator.isHidden = false
+                        strongSelf.activityIndicator.startAnimating()
+                    } else {
+                        strongSelf.tableView.reloadData()
+                        strongSelf.activityIndicator.stopAnimating()
+                    }
                 }
             })
+        
         }
     }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
+}
+
+extension ReposViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.cellsCount
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "repoViewCell", for: indexPath) as? RepoViewCell else { fatalError("Wrong cell type")}
         
         let cellViewModel = viewModel.cellViewModel(at: indexPath)
