@@ -6,24 +6,44 @@
 //  Copyright © 2018 AirCutDev. All rights reserved.
 //
 
-import Foundation
+import ReactiveCocoa
+import ReactiveSwift
 
 class RepoViewModel {
     
-    private let repoService: RepoServiceProtocol
+    private let repoService = RepoService()
     
-    private(set) var repos = [Repo]()
-    private(set) var alertMessage: String?
+    var cellViewModels = MutableProperty([RepoCellViewModel]())
     
-    init(repoService: RepoServiceProtocol) {
-        self.repoService = repoService
+    private func searchRepos(text: String) {
+        self.repoService.searchRepos(text: text)
+        
+        self.repoService.repos.producer.startWithSignal { (observer, disposable) -> () in
+            observer.observeValues({ [weak self] (repos) in
+                guard let strongSelf = self else { return }
+                strongSelf.cellViewModels.value = repos.map { RepoCellViewModel(repo: $0) }.flatMap { $0 }
+            })
+        }
     }
     
-    func fetchRepos() {
-        self.repoService.fetchTrendingRepos { [weak self] (repos, error) in
-            self?.repos = repos
-            self?.alertMessage = error?.rawValue
-        }
+    var cellsCount: Int {
+        return cellViewModels.value.count
+    }
+    
+    func cellViewModel(at indexPath: IndexPath) -> RepoCellViewModel {
+        return cellViewModels.value[indexPath.row]
+    }
+    
+    func searchBarSearchButtonTappedWith(text: String) {
+        self.searchRepos(text: text)
+    }
+}
+
+extension RepoCellViewModel {
+    init(repo: Repo) {
+        self.name = repo.name
+        self.stars = repo.stars
+        self.description = repo.description
     }
 }
 

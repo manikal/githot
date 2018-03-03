@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E2EAF2D204986680086875B /* RepoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2EAF2C204986680086875B /* RepoCellViewModel.swift */; };
+		5E2EAF2F204A08240086875B /* RepoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2EAF2E204A08240086875B /* RepoViewCell.swift */; };
 		5E6E681A2047E9A600A3BA3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6E68192047E9A600A3BA3C /* AppDelegate.swift */; };
 		5E6E681F2047E9A600A3BA3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E6E681D2047E9A600A3BA3C /* Main.storyboard */; };
 		5E6E68212047E9A600A3BA3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E6E68202047E9A600A3BA3C /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 /* Begin PBXFileReference section */
 		4318C57436FAC055CC27F7E4 /* Pods-githot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-githot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-githot/Pods-githot.debug.xcconfig"; sourceTree = "<group>"; };
 		56D2BD449CFFE936C16686E3 /* Pods_githot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_githot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E2EAF2C204986680086875B /* RepoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoCellViewModel.swift; sourceTree = "<group>"; };
+		5E2EAF2E204A08240086875B /* RepoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoViewCell.swift; sourceTree = "<group>"; };
 		5E6E68162047E9A600A3BA3C /* githot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = githot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E6E68192047E9A600A3BA3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5E6E681E2047E9A600A3BA3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				5E6E683B2047F42700A3BA3C /* ReposViewController.swift */,
+				5E2EAF2E204A08240086875B /* RepoViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -132,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				5E6E68402047F95700A3BA3C /* RepoViewModel.swift */,
+				5E2EAF2C204986680086875B /* RepoCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -262,14 +268,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-githot/Pods-githot-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactiveCocoa/ReactiveCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactiveSwift/ReactiveSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
@@ -319,7 +323,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E2EAF2D204986680086875B /* RepoCellViewModel.swift in Sources */,
 				5E6E68412047F95700A3BA3C /* RepoViewModel.swift in Sources */,
+				5E2EAF2F204A08240086875B /* RepoViewCell.swift in Sources */,
 				5E6E683D2047F42700A3BA3C /* ReposViewController.swift in Sources */,
 				5E6E681A2047E9A600A3BA3C /* AppDelegate.swift in Sources */,
 				5E6E683F2047F6B800A3BA3C /* Repo.swift in Sources */,
