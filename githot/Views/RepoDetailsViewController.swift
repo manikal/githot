@@ -26,6 +26,8 @@ class RepoDetailsViewController: UIViewController {
     @IBOutlet var starsButton: UIButton!
     @IBOutlet var forksButton: UIButton!
     @IBOutlet var markdownView: MarkdownView!
+    @IBOutlet var contentViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +38,18 @@ class RepoDetailsViewController: UIViewController {
         descriptionLabel.text = viewModel.description
         starsButton.setTitle(" \(viewModel.stars) Stars", for: .disabled)
         forksButton.setTitle(" \(viewModel.forks) Forks", for: .disabled)
+                
+        markdownView.isScrollEnabled = false
+        markdownView.onRendered = { [weak self] (height) in
+            guard let strongSelf = self else { return }
+            let markdownViewSuperFrame = strongSelf.markdownView.convert(strongSelf.markdownView.frame, to: strongSelf.view)
+            
+            if height > strongSelf.contentViewHeightConstraint.constant {
+                let updatedHeight = height + markdownViewSuperFrame.minY
+                strongSelf.contentViewHeightConstraint.constant = updatedHeight
+                strongSelf.scrollView.contentSize = CGSize(width: strongSelf.view.frame.width, height:updatedHeight)
+            }
+        }
                 
         viewModel.readmeContentSignal.observeResult { (result) in
             if let readmeContent = result.value {
