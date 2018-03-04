@@ -5,4 +5,5 @@ target 'githot' do
     use_frameworks!
     
 	pod 'ReactiveCocoa', '~> 7.0'
+	pod "MarkdownView"
 end

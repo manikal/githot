@@ -14,13 +14,16 @@ class RepoViewModel {
     private let repoService = RepoService()
     private var cellViewModels = [RepoCellViewModel]()
     private let alertMessageObserver: Signal<String,NoError>.Observer
+    private let readmeContentObserver: Signal<String,NoError>.Observer
 
     var isLoading = MutableProperty(false)
     var alertMessageSignal: Signal<String,NoError>
+    var readmeContentSignal: Signal<String,NoError>
     
     init() {
         
         (alertMessageSignal, alertMessageObserver) = Signal.pipe()
+        (readmeContentSignal, readmeContentObserver) = Signal.pipe()
 
         repoService.repos.signal.observeResult { [weak self] (result) in
             guard let strongSelf = self else { return }
@@ -34,6 +37,13 @@ class RepoViewModel {
             guard let strongSelf = self else { return }
             if let error = result.value {
                 strongSelf.alertMessageObserver.send(value: error.rawValue)
+            }
+        }
+        
+        repoService.readmeSignal.observeResult { [weak self] (result) in
+            guard let strongSelf = self else { return }
+            if let readmeContent = result.value {
+                strongSelf.readmeContentObserver.send(value: readmeContent)
             }
         }
     }
@@ -52,7 +62,9 @@ class RepoViewModel {
     
     func repoDetailsViewModel(at indexPath: IndexPath) -> RepoDetailsViewModel {
         let repo = repoService.repos.value[indexPath.row]
-        return RepoDetailsViewModel(repo: repo)
+        let repoDetailsViewModel = RepoDetailsViewModel(repo: repo, readmeContentSignal: readmeContentSignal)
+        repoService.fetchReadme(owner: repo.author, repoName: repo.name)
+        return repoDetailsViewModel
     }
     
     func searchBarSearchButtonTappedWith(text: String) {
@@ -71,13 +83,14 @@ extension RepoCellViewModel {
 }
 
 extension RepoDetailsViewModel {
-    init(repo: Repo) {
+    init(repo: Repo, readmeContentSignal: Signal<String,NoError>) {
         self.name = repo.name
         self.username = repo.author
         self.stars = repo.stars
         self.forks = repo.forks
         self.description = repo.description
         self.avatarURL = repo.avatarURL
+        self.readmeContentSignal = readmeContentSignal
     }
 }
 

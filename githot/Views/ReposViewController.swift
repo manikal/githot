@@ -58,6 +58,7 @@ class ReposViewController: UIViewController {
         
         if let repoDetailsViewController = destinationViewController as? RepoDetailsViewController {
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                tableView.deselectRow(at: selectedIndexPath, animated: true)
                 let repoDetailsViewModel = viewModel.repoDetailsViewModel(at: selectedIndexPath)
                 repoDetailsViewController.viewModel = repoDetailsViewModel
             }

@@ -6,6 +6,9 @@
 //  Copyright © 2018 AirCutDev. All rights reserved.
 //
 
+import ReactiveSwift
+import enum Result.NoError
+
 struct RepoDetailsViewModel {
     let name: String
     let avatarURL: String
@@ -13,5 +16,7 @@ struct RepoDetailsViewModel {
     let description: String
     let stars: String
     let forks: String
+    
+    var readmeContentSignal: Signal<String,NoError>
 }
 

@@ -7,6 +7,14 @@
 //
 
 import UIKit
+import ReactiveCocoa
+import ReactiveSwift
+import MarkdownView
+
+struct RepoDetailsViewControllerConstants {
+    static let AvatarImageViewBorderCGColor = UIColor(rgb: 0x607D8B).cgColor
+    static let StarsForksContainerViewBorderCGColor = UIColor(rgb: 0xC9D3D8).cgColor
+}
 
 class RepoDetailsViewController: UIViewController {
     var viewModel:RepoDetailsViewModel!
@@ -14,7 +22,10 @@ class RepoDetailsViewController: UIViewController {
     @IBOutlet private var avatarImageView: UIImageView!
     @IBOutlet private var usernameLabel: UILabel!
     @IBOutlet private var descriptionLabel: UILabel!
-    @IBOutlet private var segmentedControl: UISegmentedControl!
+    @IBOutlet var starsForksContainerView: UIView!
+    @IBOutlet var starsButton: UIButton!
+    @IBOutlet var forksButton: UIButton!
+    @IBOutlet var markdownView: MarkdownView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +34,24 @@ class RepoDetailsViewController: UIViewController {
         avatarImageView.downloadedFrom(link: viewModel.avatarURL)
         usernameLabel.text = viewModel.username
         descriptionLabel.text = viewModel.description
+        starsButton.setTitle(" \(viewModel.stars) Stars", for: .disabled)
+        forksButton.setTitle(" \(viewModel.forks) Forks", for: .disabled)
+                
+        viewModel.readmeContentSignal.observeResult { (result) in
+            if let readmeContent = result.value {
+                DispatchQueue.main.async { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.markdownView.load(markdown: readmeContent)
+                }
+            }
+        }
+        
+        updateAppearance()
+    }
+    
+    private func updateAppearance() {
+        avatarImageView.layer.borderColor = RepoDetailsViewControllerConstants.AvatarImageViewBorderCGColor
+        starsForksContainerView.layer.borderColor = RepoDetailsViewControllerConstants.StarsForksContainerViewBorderCGColor
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
