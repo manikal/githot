@@ -94,6 +94,7 @@
                                 <connections>
                                     <outlet property="dataSource" destination="WoK-3E-V27" id="ndQ-S8-ug6"/>
                                     <outlet property="delegate" destination="WoK-3E-V27" id="R53-pt-Yd9"/>
+                                    <outlet property="prefetchDataSource" destination="WoK-3E-V27" id="Cap-Am-UyL"/>
                                 </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="idi-TO-Fxz">
@@ -135,7 +136,7 @@
         <!--Repo Details View Controller-->
         <scene sceneID="lIR-vy-uNi">
             <objects>
-                <viewController id="YGL-P3-w71" customClass="RepoDetailsViewController" customModule="githot" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="YGL-P3-w71" customClass="RepoDetailsViewController" customModule="githot" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EhL-yL-l1S">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

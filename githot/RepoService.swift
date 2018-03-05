@@ -16,6 +16,7 @@ private struct RepoServiceConstants {
     static let ReadmeAPI = "https://api.github.com/repos/%@/%@/readme"
     static let Token = "1be19c55826dce97ac9f831f5e7b2aac13260104"
     static let UserName = "manikal"
+    static let DescriptionLengthLimit = 500
 }
 
 enum ServiceError: String, Error {
@@ -33,9 +34,11 @@ class RepoService {
     private(set) var repos = MutableProperty([Repo]())
     private(set) var errorSignal:  Signal<ServiceError,NoError>
     private(set) var readmeSignal: Signal<String, NoError>
+    private(set) var noMorePagesSignal: Signal<Bool, NoError>
     
     private let readmeObserver: Signal<String, NoError>.Observer
     private let errorObserver: Signal<ServiceError,NoError>.Observer
+    private let noMorePagesObserver: Signal<Bool, NoError>.Observer
     
     private var nextPage = 1
     private var lastPage = 0
@@ -45,13 +48,12 @@ class RepoService {
     init() {
         (errorSignal, errorObserver) = Signal.pipe()
         (readmeSignal, readmeObserver) = Signal.pipe()
+        (noMorePagesSignal, noMorePagesObserver) = Signal.pipe()
     }
     
     private func performSearchRepos(text: String) -> SignalProducer<[Repo], ServiceError> {
         return SignalProducer { [weak self] producer, disposable -> () in
             guard let strongSelf = self else { return }
-
-            strongSelf.searchText = text
 
             guard let searchReposAPI = String(format:RepoServiceConstants.SearchReposAPI, text, RepoServiceConstants.PageSize, strongSelf.nextPage).addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed), let searchRequestURL = URL(string: searchReposAPI) else { return producer.send(error: ServiceError.creatingRequestFailed) }
             
@@ -159,6 +161,15 @@ class RepoService {
     }
     
     func searchRepos(text: String) {
+        
+        if text != searchText {
+            repos.value.removeAll()
+            searchText = text
+            nextPage = 1
+            lastPage = 0
+            nextPageAvailable = true
+        }
+        
         self.performSearchRepos(text:text).startWithResult { [weak self] result in
             guard let strongSelf = self else { return }
             if let models = result.value {
@@ -173,6 +184,7 @@ class RepoService {
         print("Fetch next page: \(nextPage)")
         guard nextPageAvailable else {
             print("No more pages")
+            noMorePagesObserver.send(value: true)
             return }
         
         self.searchRepos(text: self.searchText)
@@ -194,7 +206,13 @@ extension Repo {
     init(data: [String : Any]) {
         
         self.name = data["name"] as? String ?? ""
-        self.description = data["description"] as? String ?? ""
+        let desc = data["description"] as? String ?? ""
+        
+        if desc.count > RepoServiceConstants.DescriptionLengthLimit {
+            description = String("\(desc.prefix(RepoServiceConstants.DescriptionLengthLimit))...")
+        } else {
+            description = desc
+        }
 
         if let stars = data["watchers"] as? Int {
             self.stars = String(stars)

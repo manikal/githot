@@ -9,18 +9,16 @@
 import UIKit
 import ReactiveSwift
 
-struct ReposViewControllerConstants {
-    static let TableViewPagesPriorToPreload = 4
-}
-
 class ReposViewController: UIViewController {
     
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var noReposLabel: UILabel!
+    
     private let searchController = UISearchController(searchResultsController: nil)
     private let viewModel = RepoViewModel()
-
+    private var noMorePagesToLoad = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -64,6 +62,11 @@ class ReposViewController: UIViewController {
                 }
             }
         }
+        
+        viewModel.noMorePagesToLoadSignal.observeResult { [weak self] (result) in
+            guard let strongSelf = self else { return }
+            strongSelf.noMorePagesToLoad = true
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -86,7 +89,7 @@ class ReposViewController: UIViewController {
     }
 }
 
-extension ReposViewController: UITableViewDataSource, UITableViewDelegate {
+extension ReposViewController: UITableViewDataSource, UITableViewDataSourcePrefetching {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -107,8 +110,12 @@ extension ReposViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + (tableView.visibleCells.count * ReposViewControllerConstants.TableViewPagesPriorToPreload) == viewModel.cellsCount && !viewModel.isLoading.value {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if let lastRow = indexPaths.last,
+            lastRow.row >= viewModel.cellsCount/2,
+            !viewModel.isLoading.value,
+            !noMorePagesToLoad {
+            print("Row at index \(lastRow.row) cellsCount: \(viewModel.cellsCount)")
             viewModel.loadNextPage()
         }
     }

@@ -15,8 +15,10 @@ class RepoViewModel {
     private var cellViewModels = [RepoCellViewModel]()
     private let alertMessageObserver: Signal<String,NoError>.Observer
     private let readmeContentObserver: Signal<String,NoError>.Observer
+    private let noMorePagesToLoadSignalObserver: Signal<Bool,NoError>.Observer
 
     var isLoading = MutableProperty(false)
+    var noMorePagesToLoadSignal: Signal<Bool, NoError>
     var alertMessageSignal: Signal<String,NoError>
     var readmeContentSignal: Signal<String,NoError>
     
@@ -24,6 +26,7 @@ class RepoViewModel {
         
         (alertMessageSignal, alertMessageObserver) = Signal.pipe()
         (readmeContentSignal, readmeContentObserver) = Signal.pipe()
+        (noMorePagesToLoadSignal, noMorePagesToLoadSignalObserver) = Signal.pipe()
 
         repoService.repos.signal.observeResult { [weak self] (result) in
             guard let strongSelf = self else { return }
@@ -46,6 +49,12 @@ class RepoViewModel {
                 strongSelf.readmeContentObserver.send(value: readmeContent)
             }
         }
+        
+        repoService.noMorePagesSignal.observeResult { [weak self] (result) in
+            guard let strongSelf = self else { return }
+            strongSelf.noMorePagesToLoadSignalObserver.send(value: true)
+            strongSelf.isLoading.value = false
+        }
     }
     
     private func searchRepos(text: String) {
@@ -53,6 +62,7 @@ class RepoViewModel {
     }
     
     func loadNextPage() {
+        isLoading.value = true
         repoService.loadNextRepoPage()
     }
     
@@ -72,9 +82,8 @@ class RepoViewModel {
     }
     
     func searchBarSearchButtonTappedWith(text: String) {
-        cellViewModels.removeAll()
-        isLoading.value = true
         searchRepos(text: text)
+        isLoading.value = true
     }
 }
 
