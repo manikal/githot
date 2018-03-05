@@ -33,7 +33,7 @@ class RepoDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         viewModel.readmeContentErrorSignal.observeResult { (result) in
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
@@ -62,12 +62,16 @@ class RepoDetailsViewController: UIViewController {
         markdownView.isScrollEnabled = false
         markdownView.onRendered = { [weak self] (height) in
             guard let strongSelf = self else { return }
+           
             let markdownViewSuperFrame = strongSelf.markdownView.convert(strongSelf.markdownView.frame, to: strongSelf.view)
             
             if height > strongSelf.contentViewHeightConstraint.constant {
                 let updatedHeight = height + markdownViewSuperFrame.minY
-                strongSelf.contentViewHeightConstraint.constant = updatedHeight
-                strongSelf.scrollView.contentSize = CGSize(width: strongSelf.view.frame.width, height:updatedHeight)
+                
+                DispatchQueue.main.async {
+                    strongSelf.contentViewHeightConstraint.constant = updatedHeight
+                    strongSelf.scrollView.contentSize = CGSize(width: strongSelf.view.frame.width, height:updatedHeight)
+                }
             }
         }
 

@@ -189,7 +189,7 @@
                                                 <rect key="frame" x="0.0" y="200" width="375" height="400"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Readme.md" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SfR-RJ-544">
-                                                        <rect key="frame" x="31" y="37" width="93" height="22"/>
+                                                        <rect key="frame" x="31" y="37" width="313" height="22"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="22" id="7Ev-eC-52Z"/>
                                                         </constraints>
@@ -202,11 +202,7 @@
                                                         <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gi0-rD-OQN">
-                                                        <rect key="frame" x="166" y="29" width="42" height="34"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="34" id="QiH-Xv-ONl"/>
-                                                            <constraint firstAttribute="width" constant="42" id="gCH-J1-Qnp"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="187" y="50" width="0.0" height="0.0"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -219,12 +215,12 @@
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
+                                                    <constraint firstItem="Gi0-rD-OQN" firstAttribute="centerX" secondItem="sYA-WK-cqs" secondAttribute="centerX" id="0LL-6t-lPt"/>
                                                     <constraint firstItem="SfR-RJ-544" firstAttribute="leading" secondItem="sYA-WK-cqs" secondAttribute="leading" constant="31" id="2Ge-iw-Tgc"/>
+                                                    <constraint firstItem="Gi0-rD-OQN" firstAttribute="centerY" secondItem="sYA-WK-cqs" secondAttribute="centerY" constant="-150" id="8ax-cf-OCM"/>
                                                     <constraint firstAttribute="trailing" secondItem="Zah-gy-rSi" secondAttribute="trailing" constant="8" id="HFS-oJ-usQ"/>
-                                                    <constraint firstItem="Gi0-rD-OQN" firstAttribute="centerX" secondItem="sYA-WK-cqs" secondAttribute="centerX" id="Mon-E9-duQ"/>
-                                                    <constraint firstItem="Zah-gy-rSi" firstAttribute="top" secondItem="Gi0-rD-OQN" secondAttribute="bottom" constant="4" id="Otg-zE-nJx"/>
                                                     <constraint firstAttribute="bottom" secondItem="Zah-gy-rSi" secondAttribute="bottom" constant="8" id="VZv-Ra-Kio"/>
-                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SfR-RJ-544" secondAttribute="trailing" id="ahr-ws-BRf"/>
+                                                    <constraint firstAttribute="trailing" secondItem="SfR-RJ-544" secondAttribute="trailing" constant="31" id="ahr-ws-BRf"/>
                                                     <constraint firstItem="Zah-gy-rSi" firstAttribute="top" secondItem="SfR-RJ-544" secondAttribute="bottom" constant="8" id="h1Y-iv-c8z"/>
                                                     <constraint firstItem="Zah-gy-rSi" firstAttribute="leading" secondItem="sYA-WK-cqs" secondAttribute="leading" constant="8" id="sXJ-tX-cG2"/>
                                                     <constraint firstItem="SfR-RJ-544" firstAttribute="top" secondItem="sYA-WK-cqs" secondAttribute="top" constant="37" id="zXh-7w-yhc"/>
@@ -333,7 +329,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="8Wq-hl-vld" firstAttribute="top" secondItem="EhL-yL-l1S" secondAttribute="top" id="GUC-5j-DM5"/>
-                            <constraint firstItem="8Wq-hl-vld" firstAttribute="bottom" secondItem="eHP-p3-gIM" secondAttribute="bottom" id="KIp-92-kIH"/>
+                            <constraint firstItem="8Wq-hl-vld" firstAttribute="bottom" secondItem="EhL-yL-l1S" secondAttribute="bottom" id="KIp-92-kIH"/>
                             <constraint firstAttribute="trailing" secondItem="8Wq-hl-vld" secondAttribute="trailing" id="QDy-Jv-F2a"/>
                             <constraint firstItem="8Wq-hl-vld" firstAttribute="leading" secondItem="EhL-yL-l1S" secondAttribute="leading" id="fU5-FU-koy"/>
                         </constraints>

@@ -9,6 +9,10 @@
 import UIKit
 import ReactiveSwift
 
+struct ReposViewControllerConstants {
+    static let TableViewPagesPriorToPreload = 4
+}
+
 class ReposViewController: UIViewController {
     
     @IBOutlet private var tableView: UITableView!
@@ -82,7 +86,7 @@ class ReposViewController: UIViewController {
     }
 }
 
-extension ReposViewController: UITableViewDataSource {
+extension ReposViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -101,6 +105,12 @@ extension ReposViewController: UITableViewDataSource {
         cell.descriptionLabel.text = cellViewModel.description
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + (tableView.visibleCells.count * ReposViewControllerConstants.TableViewPagesPriorToPreload) == viewModel.cellsCount && !viewModel.isLoading.value {
+            viewModel.loadNextPage()
+        }
     }
 }
 

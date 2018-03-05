@@ -8,9 +8,11 @@
 
 import ReactiveSwift
 import enum Result.NoError
+import WebLinking
 
 private struct RepoServiceConstants {
-    static let SearchReposAPI = "https://api.github.com/search/repositories?q=%@&sort=stars&order=desc&per_page=100" // 30 requests per minute
+    static let PageSize = 100
+    static let SearchReposAPI = "https://api.github.com/search/repositories?q=%@&sort=stars&order=desc&per_page=%d&page=%d" // 30 requests per minute
     static let ReadmeAPI = "https://api.github.com/repos/%@/%@/readme"
     static let Token = "1be19c55826dce97ac9f831f5e7b2aac13260104"
     static let UserName = "manikal"
@@ -35,15 +37,23 @@ class RepoService {
     private let readmeObserver: Signal<String, NoError>.Observer
     private let errorObserver: Signal<ServiceError,NoError>.Observer
     
+    private var nextPage = 1
+    private var lastPage = 0
+    private var searchText = ""
+    private var nextPageAvailable = true
+    
     init() {
         (errorSignal, errorObserver) = Signal.pipe()
         (readmeSignal, readmeObserver) = Signal.pipe()
     }
     
     private func performSearchRepos(text: String) -> SignalProducer<[Repo], ServiceError> {
-        return SignalProducer { producer, disposable -> () in
-            
-            guard let searchReposAPI = String(format:RepoServiceConstants.SearchReposAPI, text).addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed), let searchRequestURL = URL(string: searchReposAPI) else { return producer.send(error: ServiceError.creatingRequestFailed) }
+        return SignalProducer { [weak self] producer, disposable -> () in
+            guard let strongSelf = self else { return }
+
+            strongSelf.searchText = text
+
+            guard let searchReposAPI = String(format:RepoServiceConstants.SearchReposAPI, text, RepoServiceConstants.PageSize, strongSelf.nextPage).addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed), let searchRequestURL = URL(string: searchReposAPI) else { return producer.send(error: ServiceError.creatingRequestFailed) }
             
             var request = URLRequest(url: searchRequestURL)
             request.setValue("token \(RepoServiceConstants.Token)", forHTTPHeaderField: "Authentication")
@@ -51,11 +61,28 @@ class RepoService {
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 do {
+                    
                     guard let data = data else { return producer.send(value: []) }
 
                     guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else { throw ServiceError.conversionFailed }
                     
                     if let response = response as? HTTPURLResponse , 200...299 ~= response.statusCode {
+                        
+                        if let nextLink = response.findLink(relation: "next"), let lastLink = response.findLink(relation: "last"){
+                            if let nextURL = URLComponents(string: nextLink.uri), let lastURL = URLComponents(string: lastLink.uri) {
+                                if let nextPage = nextURL.queryItems?.first(where: { $0.name == "page" })?.value {
+                                    strongSelf.nextPage = Int(nextPage) ?? 1
+                                }
+                                if let lastPage = lastURL.queryItems?.first(where: { $0.name == "page" })?.value {
+                                    strongSelf.lastPage = Int(lastPage) ?? 1
+                                }
+                                
+                                print("Next page: \(strongSelf.nextPage) last page: \(strongSelf.lastPage)")
+                            }
+                        } else {
+                            strongSelf.nextPageAvailable = false
+                        }
+
                         if let itemsArray = json["items"] as? [Dictionary<String,Any>] {
                             var models = [Repo]()
                             for data in itemsArray {
@@ -135,11 +162,20 @@ class RepoService {
         self.performSearchRepos(text:text).startWithResult { [weak self] result in
             guard let strongSelf = self else { return }
             if let models = result.value {
-                strongSelf.repos.value = models
+                strongSelf.repos.value.append(contentsOf: models)
             } else if let error = result.error {
                 strongSelf.errorObserver.send(value: error)
             }
         }
+    }
+    
+    func loadNextRepoPage() {
+        print("Fetch next page: \(nextPage)")
+        guard nextPageAvailable else {
+            print("No more pages")
+            return }
+        
+        self.searchRepos(text: self.searchText)
     }
     
     func fetchReadme(owner: String, repoName: String) {

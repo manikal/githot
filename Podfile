@@ -6,4 +6,5 @@ target 'githot' do
     
 	pod 'ReactiveCocoa', '~> 7.0'
 	pod "MarkdownView"
+    pod 'WebLinking'
 end

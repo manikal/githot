@@ -52,6 +52,10 @@ class RepoViewModel {
         repoService.searchRepos(text: text)
     }
     
+    func loadNextPage() {
+        repoService.loadNextRepoPage()
+    }
+    
     var cellsCount: Int {
         return cellViewModels.count
     }
