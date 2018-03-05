@@ -31,24 +31,22 @@ class ReposViewController: UIViewController {
         
         definesPresentationContext = true
         
-        viewModel.isLoading.producer.startWithSignal { (observer, disposable) -> () in
-            observer.observeValues({ [weak self] (loading) in
-                guard let strongSelf = self else { return }
-                DispatchQueue.main.async {
-                    strongSelf.tableView.reloadData()
-                    strongSelf.noReposLabel.text = ""
-
-                    if loading {
-                        strongSelf.activityIndicator.startAnimating()
-                    } else {
-                        strongSelf.activityIndicator.stopAnimating()
-                        
-                        if strongSelf.viewModel.cellsCount == 0 {
-                            strongSelf.noReposLabel.text = "🤷‍♀️"
-                        }
+        viewModel.isLoading.signal.observeResult { [weak self]  (result) in
+            guard let strongSelf = self else { return }
+            DispatchQueue.main.async {
+                strongSelf.tableView.reloadData()
+                strongSelf.noReposLabel.text = ""
+                
+                if result.value! {
+                    strongSelf.activityIndicator.startAnimating()
+                } else {
+                    strongSelf.activityIndicator.stopAnimating()
+                    
+                    if strongSelf.viewModel.cellsCount == 0 {
+                        strongSelf.noReposLabel.text = "🤷‍♀️"
                     }
                 }
-            })
+            }
         }
         
         viewModel.alertMessageSignal.take(while: { (value) -> Bool in
@@ -77,7 +75,6 @@ class ReposViewController: UIViewController {
                 tableView.deselectRow(at: selectedIndexPath, animated: true)
                 let repoDetailsViewModel = viewModel.repoDetailsViewModel(at: selectedIndexPath)
                 repoDetailsViewController.viewModel = repoDetailsViewModel
-                _ = self.viewModel.alertMessageSignal.take(during: destinationViewController.reactive.lifetime)
             }
         }
     }

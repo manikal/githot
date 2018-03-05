@@ -77,7 +77,12 @@ class RepoViewModel {
     func repoDetailsViewModel(at indexPath: IndexPath) -> RepoDetailsViewModel {
         let repo = repoService.repos.value[indexPath.row]
         let repoDetailsViewModel = RepoDetailsViewModel(repo: repo, readmeContentSignal: readmeContentSignal, readmeContentErrorSignal: alertMessageSignal)
-        repoService.fetchReadme(owner: repo.author, repoName: repo.name)
+        
+        delay(0.2) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.repoService.fetchReadme(owner: repo.author, repoName: repo.name)
+        }
+        
         return repoDetailsViewModel
     }
     
