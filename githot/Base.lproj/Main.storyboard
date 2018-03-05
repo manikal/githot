@@ -96,6 +96,16 @@
                                     <outlet property="delegate" destination="WoK-3E-V27" id="R53-pt-Yd9"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="idi-TO-Fxz">
+                                <rect key="frame" x="168" y="281" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="aY1-vJ-qVG"/>
+                                    <constraint firstAttribute="width" constant="40" id="pw4-Wd-nFB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bM2-k2-jHX">
                                 <rect key="frame" x="0.0" y="291" width="375" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -103,6 +113,10 @@
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="idi-TO-Fxz" firstAttribute="centerX" secondItem="YdD-XN-N0o" secondAttribute="centerX" id="NJB-Xo-N3g"/>
+                            <constraint firstItem="idi-TO-Fxz" firstAttribute="centerY" secondItem="YdD-XN-N0o" secondAttribute="centerY" id="hVm-mE-gW9"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="LKv-CR-fra"/>
                     </view>
                     <navigationItem key="navigationItem" title="Github Trends" id="IPk-54-qRm">
@@ -110,6 +124,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="bM2-k2-jHX" id="vI6-Dj-h09"/>
+                        <outlet property="noReposLabel" destination="idi-TO-Fxz" id="tbe-Ye-bAR"/>
                         <outlet property="tableView" destination="u2p-4B-fOt" id="gBC-ee-v6p"/>
                     </connections>
                 </viewController>
@@ -186,11 +201,28 @@
                                                         <rect key="frame" x="8" y="67" width="359" height="325"/>
                                                         <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gi0-rD-OQN">
+                                                        <rect key="frame" x="166" y="29" width="42" height="34"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="34" id="QiH-Xv-ONl"/>
+                                                            <constraint firstAttribute="width" constant="42" id="gCH-J1-Qnp"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="goL-Nt-Qyo">
+                                                        <rect key="frame" x="0.0" y="39" width="375" height="20"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="color" red="0.37647058820000001" green="0.49019607840000001" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </activityIndicatorView>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstItem="SfR-RJ-544" firstAttribute="leading" secondItem="sYA-WK-cqs" secondAttribute="leading" constant="31" id="2Ge-iw-Tgc"/>
                                                     <constraint firstAttribute="trailing" secondItem="Zah-gy-rSi" secondAttribute="trailing" constant="8" id="HFS-oJ-usQ"/>
+                                                    <constraint firstItem="Gi0-rD-OQN" firstAttribute="centerX" secondItem="sYA-WK-cqs" secondAttribute="centerX" id="Mon-E9-duQ"/>
+                                                    <constraint firstItem="Zah-gy-rSi" firstAttribute="top" secondItem="Gi0-rD-OQN" secondAttribute="bottom" constant="4" id="Otg-zE-nJx"/>
                                                     <constraint firstAttribute="bottom" secondItem="Zah-gy-rSi" secondAttribute="bottom" constant="8" id="VZv-Ra-Kio"/>
                                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SfR-RJ-544" secondAttribute="trailing" id="ahr-ws-BRf"/>
                                                     <constraint firstItem="Zah-gy-rSi" firstAttribute="top" secondItem="SfR-RJ-544" secondAttribute="bottom" constant="8" id="h1Y-iv-c8z"/>
@@ -311,11 +343,13 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="bdG-Eh-nAc"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="goL-Nt-Qyo" id="6a2-n8-2qc"/>
                         <outlet property="avatarImageView" destination="eHJ-EV-mMd" id="pSr-wV-IfH"/>
                         <outlet property="contentViewHeightConstraint" destination="jSR-Fh-9vI" id="T5i-dN-w0w"/>
                         <outlet property="descriptionLabel" destination="7JG-OQ-38k" id="jgp-8n-FG4"/>
                         <outlet property="forksButton" destination="kZw-sv-WFl" id="p9L-pE-8le"/>
                         <outlet property="markdownView" destination="Zah-gy-rSi" id="XP3-pb-FKE"/>
+                        <outlet property="readmeContentErrorLabel" destination="Gi0-rD-OQN" id="a4O-Vp-yC7"/>
                         <outlet property="scrollView" destination="8Wq-hl-vld" id="8DM-1s-KzK"/>
                         <outlet property="starsButton" destination="x8B-C9-fVv" id="B2S-zj-LSz"/>
                         <outlet property="starsForksContainerView" destination="8hq-3r-hy4" id="fUx-uc-JUl"/>

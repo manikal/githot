@@ -18,5 +18,6 @@ struct RepoDetailsViewModel {
     let forks: String
     
     var readmeContentSignal: Signal<String,NoError>
+    var readmeContentErrorSignal: Signal<String, NoError>
 }
 

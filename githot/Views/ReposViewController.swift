@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import ReactiveSwift
 
 class ReposViewController: UIViewController {
     
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var noReposLabel: UILabel!
     private let searchController = UISearchController(searchResultsController: nil)
     private let viewModel = RepoViewModel()
 
@@ -32,17 +34,24 @@ class ReposViewController: UIViewController {
                 guard let strongSelf = self else { return }
                 DispatchQueue.main.async {
                     strongSelf.tableView.reloadData()
+                    strongSelf.noReposLabel.text = ""
 
                     if loading {
                         strongSelf.activityIndicator.startAnimating()
                     } else {
                         strongSelf.activityIndicator.stopAnimating()
+                        
+                        if strongSelf.viewModel.cellsCount == 0 {
+                            strongSelf.noReposLabel.text = "🤷‍♀️"
+                        }
                     }
                 }
             })
         }
         
-        viewModel.alertMessageSignal.observeResult { [weak self] (result) in
+        viewModel.alertMessageSignal.take(while: { (value) -> Bool in
+            return self.isBeingPresented
+        }).observeResult { [weak self] (result) in
             guard let strongSelf = self else { return }
             if let message = result.value {
                 DispatchQueue.main.async {
@@ -61,6 +70,7 @@ class ReposViewController: UIViewController {
                 tableView.deselectRow(at: selectedIndexPath, animated: true)
                 let repoDetailsViewModel = viewModel.repoDetailsViewModel(at: selectedIndexPath)
                 repoDetailsViewController.viewModel = repoDetailsViewModel
+                _ = self.viewModel.alertMessageSignal.take(during: destinationViewController.reactive.lifetime)
             }
         }
     }

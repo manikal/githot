@@ -31,6 +31,7 @@ class RepoService {
     private(set) var repos = MutableProperty([Repo]())
     private(set) var errorSignal:  Signal<ServiceError,NoError>
     private(set) var readmeSignal: Signal<String, NoError>
+    
     private let readmeObserver: Signal<String, NoError>.Observer
     private let errorObserver: Signal<ServiceError,NoError>.Observer
     
@@ -97,7 +98,9 @@ class RepoService {
                     
                     guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else { throw ServiceError.conversionFailed }
                     
-                    if let response = response as? HTTPURLResponse , 200...299 ~= response.statusCode {
+                    guard let response = response as? HTTPURLResponse else { throw ServiceError.requestFailed }
+                    
+                    if 200...299 ~= response.statusCode {
                         if let base64EncodedContentString = json["content"] as? String {
                             guard let decodedData = Data(base64Encoded: base64EncodedContentString, options: .ignoreUnknownCharacters) else { throw ServiceError.decodingReadmeFailed }
                             guard let decodedString = String(data: decodedData, encoding: .utf8) else { throw ServiceError.encodingReadmeFailed }
@@ -105,11 +108,17 @@ class RepoService {
                             if decodedString.count > 0 {
                                 producer.send(value: decodedString)
                             } else {
+                                
                                  throw ServiceError.readmeContentEmpty
                             }
                         }
                     } else {
-                        throw ServiceError.requestFailed
+                        switch response.statusCode {
+                        case 404:
+                            throw ServiceError.readmeContentEmpty
+                        default:
+                            throw ServiceError.requestFailed
+                        }
                     }
                 } catch let error as ServiceError {
                     producer.send(error: error)

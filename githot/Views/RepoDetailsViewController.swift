@@ -28,9 +28,29 @@ class RepoDetailsViewController: UIViewController {
     @IBOutlet var markdownView: MarkdownView!
     @IBOutlet var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var readmeContentErrorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.readmeContentErrorSignal.observeResult { (result) in
+            DispatchQueue.main.async { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.activityIndicator.stopAnimating()
+                strongSelf.readmeContentErrorLabel.text = "🤷‍♀️"
+            }
+        }
+        
+        viewModel.readmeContentSignal.observeResult { (result) in
+            if let readmeContent = result.value {
+                DispatchQueue.main.async { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.markdownView.load(markdown: readmeContent)
+                    strongSelf.activityIndicator.stopAnimating()
+                }
+            }
+        }
         
         title = viewModel.name
         avatarImageView.downloadedFrom(link: viewModel.avatarURL)
@@ -38,7 +58,7 @@ class RepoDetailsViewController: UIViewController {
         descriptionLabel.text = viewModel.description
         starsButton.setTitle(" \(viewModel.stars) Stars", for: .disabled)
         forksButton.setTitle(" \(viewModel.forks) Forks", for: .disabled)
-                
+        
         markdownView.isScrollEnabled = false
         markdownView.onRendered = { [weak self] (height) in
             guard let strongSelf = self else { return }
@@ -50,16 +70,7 @@ class RepoDetailsViewController: UIViewController {
                 strongSelf.scrollView.contentSize = CGSize(width: strongSelf.view.frame.width, height:updatedHeight)
             }
         }
-                
-        viewModel.readmeContentSignal.observeResult { (result) in
-            if let readmeContent = result.value {
-                DispatchQueue.main.async { [weak self] in
-                    guard let strongSelf = self else { return }
-                    strongSelf.markdownView.load(markdown: readmeContent)
-                }
-            }
-        }
-        
+
         updateAppearance()
     }
     

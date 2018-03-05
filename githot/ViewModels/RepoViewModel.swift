@@ -62,7 +62,7 @@ class RepoViewModel {
     
     func repoDetailsViewModel(at indexPath: IndexPath) -> RepoDetailsViewModel {
         let repo = repoService.repos.value[indexPath.row]
-        let repoDetailsViewModel = RepoDetailsViewModel(repo: repo, readmeContentSignal: readmeContentSignal)
+        let repoDetailsViewModel = RepoDetailsViewModel(repo: repo, readmeContentSignal: readmeContentSignal, readmeContentErrorSignal: alertMessageSignal)
         repoService.fetchReadme(owner: repo.author, repoName: repo.name)
         return repoDetailsViewModel
     }
@@ -83,7 +83,7 @@ extension RepoCellViewModel {
 }
 
 extension RepoDetailsViewModel {
-    init(repo: Repo, readmeContentSignal: Signal<String,NoError>) {
+    init(repo: Repo, readmeContentSignal: Signal<String,NoError>, readmeContentErrorSignal: Signal<String,NoError>) {
         self.name = repo.name
         self.username = repo.author
         self.stars = repo.stars
@@ -91,6 +91,7 @@ extension RepoDetailsViewModel {
         self.description = repo.description
         self.avatarURL = repo.avatarURL
         self.readmeContentSignal = readmeContentSignal
+        self.readmeContentErrorSignal = readmeContentErrorSignal
     }
 }
 
