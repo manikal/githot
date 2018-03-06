@@ -51,3 +51,15 @@ func delay(_ delay:Double, closure:@escaping ()->()) {
     let when = DispatchTime.now() + delay
     DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
 }
+
+extension UIViewController {    
+    public var isTopViewController: Bool {
+        if self.navigationController != nil {
+            return self.navigationController?.visibleViewController === self
+        } else if self.tabBarController != nil {
+            return self.tabBarController?.selectedViewController == self && self.presentedViewController == nil
+        } else {
+            return self.presentedViewController == nil && self.isViewLoaded
+        }
+    }
+}

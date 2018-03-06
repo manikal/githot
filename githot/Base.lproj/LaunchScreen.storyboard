@@ -19,11 +19,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fire" translatesAutoresizingMaskIntoConstraints="NO" id="OPL-ik-iYS">
-                                <rect key="frame" x="-84" y="338" width="240" height="371"/>
+                                <rect key="frame" x="-84" y="263" width="299" height="446"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="github" translatesAutoresizingMaskIntoConstraints="NO" id="vrL-HC-BpQ">
-                                <rect key="frame" x="254" y="430" width="240" height="248"/>
+                                <rect key="frame" x="223" y="386" width="306" height="292"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             </imageView>
                         </subviews>
@@ -37,7 +37,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="fire" width="85" height="130"/>
-        <image name="github" width="133" height="130"/>
+        <image name="fire" width="1000" height="1470"/>
+        <image name="github" width="999" height="975"/>
     </resources>
 </document>

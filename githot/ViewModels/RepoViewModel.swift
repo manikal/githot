@@ -15,18 +15,17 @@ class RepoViewModel {
     private var cellViewModels = [RepoCellViewModel]()
     private let alertMessageObserver: Signal<String,NoError>.Observer
     private let readmeContentObserver: Signal<String,NoError>.Observer
-    private let noMorePagesToLoadSignalObserver: Signal<Bool,NoError>.Observer
 
-    var isLoading = MutableProperty(false)
-    var noMorePagesToLoadSignal: Signal<Bool, NoError>
-    var alertMessageSignal: Signal<String,NoError>
-    var readmeContentSignal: Signal<String,NoError>
+    private(set) var isLoading = MutableProperty(false)
+    private(set) var noMorePagesToLoad = false
+    private(set) var alertMessageSignal: Signal<String,NoError>
+    private(set) var readmeContentSignal: Signal<String,NoError>
+    private(set) var allReposCount = 0
     
     init() {
         
         (alertMessageSignal, alertMessageObserver) = Signal.pipe()
         (readmeContentSignal, readmeContentObserver) = Signal.pipe()
-        (noMorePagesToLoadSignal, noMorePagesToLoadSignalObserver) = Signal.pipe()
 
         repoService.repos.signal.observeResult { [weak self] (result) in
             guard let strongSelf = self else { return }
@@ -52,13 +51,17 @@ class RepoViewModel {
         
         repoService.noMorePagesSignal.observeResult { [weak self] (result) in
             guard let strongSelf = self else { return }
-            strongSelf.noMorePagesToLoadSignalObserver.send(value: true)
+            strongSelf.noMorePagesToLoad = true
             strongSelf.isLoading.value = false
         }
-    }
-    
-    private func searchRepos(text: String) {
-        repoService.searchRepos(text: text)
+        
+        repoService.itemsCountSignal.observeResult { [weak self] (result) in
+            guard let strongSelf = self else { return }
+            
+            if let itemsCount = result.value {
+                strongSelf.allReposCount = itemsCount
+            }
+        }
     }
     
     func loadNextPage() {
@@ -86,8 +89,8 @@ class RepoViewModel {
         return repoDetailsViewModel
     }
     
-    func searchBarSearchButtonTappedWith(text: String) {
-        searchRepos(text: text)
+    func searchRepos(text: String) {
+        repoService.searchRepos(text: text)
         isLoading.value = true
     }
 }

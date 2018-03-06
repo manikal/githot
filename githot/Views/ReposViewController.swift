@@ -17,7 +17,6 @@ class ReposViewController: UIViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     private let viewModel = RepoViewModel()
-    private var noMorePagesToLoad = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,20 +49,18 @@ class ReposViewController: UIViewController {
         }
         
         viewModel.alertMessageSignal.take(while: { (value) -> Bool in
-            return self.isBeingPresented
+            return self.isTopViewController
         }).observeResult { [weak self] (result) in
             guard let strongSelf = self else { return }
             if let message = result.value {
                 DispatchQueue.main.async {
                     strongSelf.showAlert(message: message)
                     strongSelf.activityIndicator.stopAnimating()
+                    strongSelf.viewModel.isLoading.value = false
+                    strongSelf.searchController.searchBar.text = ""
+                    strongSelf.searchController.searchBar.resignFirstResponder()
                 }
             }
-        }
-        
-        viewModel.noMorePagesToLoadSignal.observeResult { [weak self] (result) in
-            guard let strongSelf = self else { return }
-            strongSelf.noMorePagesToLoad = true
         }
     }
     
@@ -111,8 +108,8 @@ extension ReposViewController: UITableViewDataSource, UITableViewDataSourcePrefe
         if let lastRow = indexPaths.last,
             lastRow.row >= viewModel.cellsCount/2,
             !viewModel.isLoading.value,
-            !noMorePagesToLoad {
-            print("Row at index \(lastRow.row) cellsCount: \(viewModel.cellsCount)")
+            !viewModel.noMorePagesToLoad {
+            print("Prefetching - row at index \(lastRow.row) cellsCount: \(viewModel.cellsCount)")
             viewModel.loadNextPage()
         }
     }
@@ -121,7 +118,7 @@ extension ReposViewController: UITableViewDataSource, UITableViewDataSourcePrefe
 extension ReposViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text {
-            viewModel.searchBarSearchButtonTappedWith(text: searchText)
+            viewModel.searchRepos(text: searchText)
         }
     }
 }

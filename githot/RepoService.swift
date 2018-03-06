@@ -21,6 +21,7 @@ private struct RepoServiceConstants {
 
 enum ServiceError: String, Error {
     case requestFailed = "Request Failed"
+    case noConnection = "Internet connection is requried"
     case conversionFailed = "JSON response serialization failed"
     case creatingRequestFailed = "Creating search request URL failed"
     case creatingReadmeRequestFailed = "Creating readme request URL failed"
@@ -35,10 +36,12 @@ class RepoService {
     private(set) var errorSignal:  Signal<ServiceError,NoError>
     private(set) var readmeSignal: Signal<String, NoError>
     private(set) var noMorePagesSignal: Signal<Bool, NoError>
+    private(set) var itemsCountSignal: Signal<Int, NoError>
     
     private let readmeObserver: Signal<String, NoError>.Observer
     private let errorObserver: Signal<ServiceError,NoError>.Observer
     private let noMorePagesObserver: Signal<Bool, NoError>.Observer
+    private let itemsCountObserver: Signal<Int, NoError>.Observer
     
     private var nextPage = 1
     private var lastPage = 0
@@ -49,11 +52,14 @@ class RepoService {
         (errorSignal, errorObserver) = Signal.pipe()
         (readmeSignal, readmeObserver) = Signal.pipe()
         (noMorePagesSignal, noMorePagesObserver) = Signal.pipe()
+        (itemsCountSignal, itemsCountObserver) = Signal.pipe()
     }
     
     private func performSearchRepos(text: String) -> SignalProducer<[Repo], ServiceError> {
         return SignalProducer { [weak self] producer, disposable -> () in
             guard let strongSelf = self else { return }
+            
+            guard Reachability.isConnectedToNetwork() else { return producer.send(error: ServiceError.noConnection) }
 
             guard let searchReposAPI = String(format:RepoServiceConstants.SearchReposAPI, text, RepoServiceConstants.PageSize, strongSelf.nextPage).addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed), let searchRequestURL = URL(string: searchReposAPI) else { return producer.send(error: ServiceError.creatingRequestFailed) }
             
@@ -84,6 +90,10 @@ class RepoService {
                         } else {
                             strongSelf.nextPageAvailable = false
                         }
+                        
+                        if let itemsCount = json["total_count"] as? Int {
+                            strongSelf.itemsCountObserver.send(value: itemsCount)
+                        }
 
                         if let itemsArray = json["items"] as? [Dictionary<String,Any>] {
                             var models = [Repo]()
@@ -113,6 +123,8 @@ class RepoService {
     
     private func performReadmeFetch(owner: String, repoName: String) -> SignalProducer<String, ServiceError>  {
         return SignalProducer { producer, disposable -> () in
+            
+            guard Reachability.isConnectedToNetwork() else { return producer.send(error: ServiceError.noConnection) }
            
             let readmeURLString = String(format: RepoServiceConstants.ReadmeAPI, owner, repoName)
             guard let readmeURL = URL(string: readmeURLString) else { return producer.send(error: ServiceError.creatingRequestFailed) }

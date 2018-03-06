@@ -170,8 +170,8 @@ func split(_ separator: String) -> (String) -> (String, String) {
     let range = input.range(of: separator, options: NSString.CompareOptions(rawValue: 0), range: nil, locale: nil)
 
     if let range = range {
-      let lhs = String(input[range.lowerBound...])
-      let rhs = String(input[..<range.upperBound])
+      let lhs = input.substring(to: range.lowerBound)
+      let rhs = input.substring(from: range.upperBound)
       return (lhs, rhs)
     }
 
