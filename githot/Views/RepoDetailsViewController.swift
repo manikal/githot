@@ -75,6 +75,8 @@ class RepoDetailsViewController: UIViewController {
                     strongSelf.contentViewHeightConstraint.constant = updatedHeight
                     strongSelf.scrollView.contentSize = CGSize(width: strongSelf.view.frame.width, height:updatedHeight)
                 }
+            } else {
+                strongSelf.contentViewHeightConstraint.constant = strongSelf.view.bounds.height
             }
         }
 
