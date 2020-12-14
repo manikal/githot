@@ -216,7 +216,6 @@
 				5E6E68132047E9A600A3BA3C /* Frameworks */,
 				5E6E68142047E9A600A3BA3C /* Resources */,
 				6A13F0C384B5D5F50EEB4323 /* [CP] Embed Pods Frameworks */,
-				CEE26ACDC93A8221676FAA89 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -236,7 +235,6 @@
 				5EB8F90C204E905700C397E6 /* Frameworks */,
 				5EB8F90D204E905700C397E6 /* Resources */,
 				C6139A19D139DABC2238C302 /* [CP] Embed Pods Frameworks */,
-				3CF7C8B57D8EE958F5F6B864 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -327,28 +325,13 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3CF7C8B57D8EE958F5F6B864 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-githotTests/Pods-githotTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6A13F0C384B5D5F50EEB4323 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-githot/Pods-githot-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-githot/Pods-githot-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MarkdownView/MarkdownView.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactiveCocoa/ReactiveCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactiveSwift/ReactiveSwift.framework",
@@ -365,7 +348,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-githot/Pods-githot-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-githot/Pods-githot-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8FE1D50C5426FBD29F0D29DF /* [CP] Check Pods Manifest.lock */ = {
@@ -392,7 +375,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-githotTests/Pods-githotTests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-githotTests/Pods-githotTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ReactiveCocoa/ReactiveCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactiveSwift/ReactiveSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
@@ -409,22 +392,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-githotTests/Pods-githotTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CEE26ACDC93A8221676FAA89 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-githot/Pods-githot-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-githotTests/Pods-githotTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

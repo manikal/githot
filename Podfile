@@ -4,13 +4,13 @@ workspace 'githot'
 use_frameworks!
 
 target 'githot' do    
-	pod 'ReactiveCocoa', '~> 7.0'
+	pod 'ReactiveCocoa', '~> 8.0'
     pod 'MarkdownView'
     pod 'WebLinking'
 end
 
 target 'githotTests' do
-	pod 'ReactiveCocoa', '~> 7.0'
+	pod 'ReactiveCocoa', '~> 8.0'
     pod 'Quick', :git => 'https://github.com/Quick/Quick.git', :branch => 'master'
     pod 'Nimble', :git => 'https://github.com/Quick/Nimble.git', :branch => 'master'
 end
